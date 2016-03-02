@@ -147,21 +147,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DbConnector.h" />
     <ClInclude Include="MqlAdapter.h" />
-    <ClInclude Include="MqlDbConnector.h" />
+    <ClInclude Include="MsSqlConnector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="StubDbConnector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="MqlAdapter.cpp" />
-    <ClCompile Include="MqlDbConnector.cpp" />
+    <ClCompile Include="MsSqlConnector.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Itanium'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Itanium'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StubDbConnector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.ico" />

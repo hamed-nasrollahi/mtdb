@@ -33,19 +33,20 @@ namespace TestLibrary
             string userName = "bizleruser@jp876y2hhu";
             string password = "Password1";
 
-            if (db_init(host, database, userName, password, 0) < 0)
+            int connId = db_init(host, database, userName, password, 0);
+            if (connId < 0)
             {
                 Console.WriteLine("Init error: ");
                 return;
             }
 
-            if (db_write(0, null) < 0)
+            if (db_write(connId, null) < 0)
             {
                 Console.WriteLine("Write error: ");
                 return;
             }
 
-            if (db_close(0) < 0)
+            if (db_close(connId) < 0)
             {
                 Console.WriteLine("Close error: ");
                 return;

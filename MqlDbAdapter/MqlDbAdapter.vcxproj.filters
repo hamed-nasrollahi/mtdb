@@ -21,10 +21,16 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MqlDbConnector.h">
+    <ClInclude Include="MqlAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MqlAdapter.h">
+    <ClInclude Include="StubDbConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MsSqlConnector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,10 +41,13 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MqlDbConnector.cpp">
+    <ClCompile Include="MqlAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MqlAdapter.cpp">
+    <ClCompile Include="StubDbConnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MsSqlConnector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

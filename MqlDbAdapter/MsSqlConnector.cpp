@@ -4,7 +4,7 @@
 
 #include <vcclr.h>
 #include "Windows.h"
-#include "MqlDbConnector.h"
+#include "MsSqlConnector.h"
 #include <tchar.h>
 
 using namespace System;
@@ -14,22 +14,24 @@ using namespace DB;
 using namespace std;
 
 
-MqlDbConnector::~MqlDbConnector()
+DB::MsSqlConnector::MsSqlConnector(System::String^ host, System::String^ database, System::String^ userName, System::String^ password)
+{
+    m_sqlConnection = gcnew SqlConnection(String::Format("Server={0},1433;Database={1}; User ID={2};Password={3};Encrypt=True; TrustServerCertificate=False;Connection Timeout=30;",
+        host, database, userName, password));
+
+
+    //m_sqlConnection = gcnew SqlConnection("Data Source = .; Initial Catalog = StockDb; Integrated Security = True");
+}
+
+MsSqlConnector::~MsSqlConnector()
 {
 	this->close();
 }
 
-bool MqlDbConnector::init(String^ host, String^ database, String^ userName, String^ password)
+bool MsSqlConnector::init()
 {
     try
-    {
-		/*m_sqlConnection = gcnew SqlConnection(String::Format("Server={0},1433;Database={1};\
-			User ID={2};Password={3};Encrypt=True;\
-			TrustServerCertificate=False;Connection Timeout=30;",
-			host, database, userName, password));*/
-
-        m_sqlConnection = gcnew SqlConnection("Data Source = .; Initial Catalog = StockDb; Integrated Security = True");
-        
+    {        
 		m_sqlConnection->Open(); // Open up the connection
     }
     catch(Exception^ e)
@@ -46,7 +48,7 @@ bool MqlDbConnector::init(String^ host, String^ database, String^ userName, Stri
 
 
 // for test
-void MqlDbConnector::readRecords()
+void MsSqlConnector::readRecords()
 {
 	SqlDataReader^ myReader;
 	try{
@@ -67,7 +69,7 @@ void MqlDbConnector::readRecords()
 	}
 }
 
-bool MqlDbConnector::writeRecord(String^ sqlStr)
+bool MsSqlConnector::writeRecord(String^ sqlStr)
 {
 	try
 	{
@@ -86,11 +88,13 @@ bool MqlDbConnector::writeRecord(String^ sqlStr)
 	return true;
 }
 
-void MqlDbConnector::close()
+bool MsSqlConnector::close()
 {
-	if (m_sqlConnection){
-		if (m_sqlConnection->State != ConnectionState::Closed){
-			m_sqlConnection->Close();
-		}
+	if (m_sqlConnection->State != ConnectionState::Closed)
+    {
+		m_sqlConnection->Close();
+        return true;
 	}
+
+    return false;
 }

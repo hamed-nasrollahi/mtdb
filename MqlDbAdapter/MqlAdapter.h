@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vcclr.h>
-#include "MqlDbConnector.h"
+#include "DbConnector.h"
 
 ref class MqlAdapter
 {
@@ -18,6 +18,6 @@ public:
 
 private:
 	int m_nextConnectionId;
-	System::Collections::Generic::Dictionary<int, DB::MqlDbConnector^> m_connectors;
+	System::Collections::Generic::Dictionary<int, DB::DbConnector^> m_connectors;
 };
 
