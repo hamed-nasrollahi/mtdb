@@ -45,7 +45,7 @@ MqlAdapter::MqlAdapter(const MqlAdapter%)
 	throw gcnew System::InvalidOperationException("MqlAdapter cannot be copy-constructed"); 
 }
 
-int MqlAdapter::Init(String^ host, String^ database, String^ userName, String^ password, int dbType)
+int MqlAdapter::Init(String^ host, String^ database, String^ username, String^ password, int dbType)
 {
 	int connectionId = -1;
 
@@ -53,10 +53,10 @@ int MqlAdapter::Init(String^ host, String^ database, String^ userName, String^ p
     switch (dbType)
     {
     case 0:
-        connector = gcnew StubDbConnector();
+        connector = gcnew StubDbConnector(username, password);
         break;
     case 1:
-        connector = gcnew MsSqlConnector(host, database, userName, password);
+        connector = gcnew MsSqlConnector(host, database, username, password);
         break;
     default:
         break;
