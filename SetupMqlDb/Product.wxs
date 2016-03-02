@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="MqlDb" ?>
+  <?define ProductVersion="1.0.0" ?>
+  <?define Manufacturer="DW"?>
+  <?define ProductPath="..\build\products\$(var.Configuration)\"?>
+
+  <Product Id="*"
+           Name="$(var.ProductName) $(var.ProductVersion)"
+           Language="1033" 
+           Version="$(var.ProductVersion)"
+           Manufacturer="$(var.Manufacturer)" 
+           UpgradeCode="9503b5e4-0325-4740-9657-21998b6c507d">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="MqlDbFeature" Title="$(var.ProductName)" Level="1">
+			<ComponentGroupRef Id="MqlDbComponents" />
+		</Feature>
+
+    <Property Id="WIXUI_INSTALLDIR">INSTALLFOLDER</Property>
+    <UIRef Id="WixUI_Mondo" />
+    
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="$(var.ProductName)">
+        </Directory>
+      </Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="MqlDbComponents" Directory="INSTALLFOLDER">
+      
+      <Component Id="MqlDbAdapterDll">
+        <File Id="MqlDbAdapter.dll" Name="MqlDbAdapter.dll" KeyPath="yes"
+            Source="$(var.ProductPath)MqlDbAdapter.dll" />
+      </Component>
+
+      <Component Id="Path" Guid="99AC09D5-184D-4CFF-9BA5-BEB9AB1D9A34" KeyPath="yes">
+        <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]" Permanent="no" Part="last" Action="set" System="yes"/>
+      </Component>
+        
+		</ComponentGroup>
+	</Fragment>
+</Wix>
