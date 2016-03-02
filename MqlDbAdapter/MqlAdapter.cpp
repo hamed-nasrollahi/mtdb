@@ -13,6 +13,24 @@ void convertFromSystemString(wchar_t* dest, String^ src)
     dest[wcslen(wch)] = '\0';
 }
 
+extern "C" 
+{
+	__declspec(dllexport) int db_init()
+	{
+		return 0;
+	}
+
+	__declspec(dllexport) int db_close()
+	{
+		return 0;
+	}
+
+	__declspec(dllexport) int db_write()
+	{
+		return 0;
+	}
+}
+
 String^ convertToSystemString(wchar_t* src)
 {
     String^ const str1 = gcnew String(src);

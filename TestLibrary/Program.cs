@@ -10,20 +10,38 @@ namespace TestLibrary
     {
         #region Dll Import functions
         [DllImport("MqlDbAdapter.dll")]
-        public static extern int init();        
+        public static extern int db_init();
+
+        [DllImport("MqlDbAdapter.dll")]
+        public static extern int db_close();
+
+        [DllImport("MqlDbAdapter.dll")]
+        public static extern int db_write();
         #endregion
 
         private static IntPtr _message = IntPtr.Zero;
 
         static void Main(string[] args)
         {
-            if (init() == 0)
+            if (db_init() < 0)
             {
-                Console.WriteLine("Init error: " + "MetaTraderApi");
+                Console.WriteLine("Init error: ");
                 return;
             }
 
-            Console.WriteLine("Init success");
+            if (db_write() < 0)
+            {
+                Console.WriteLine("Write error: ");
+                return;
+            }
+
+            if (db_close() < 0)
+            {
+                Console.WriteLine("Close error: ");
+                return;
+            }
+
+            Console.WriteLine("Library test success");
         }
     }
 }
