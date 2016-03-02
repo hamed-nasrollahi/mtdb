@@ -15,17 +15,17 @@ void convertFromSystemString(wchar_t* dest, String^ src)
 
 extern "C" 
 {
-	__declspec(dllexport) int db_init()
+	__declspec(dllexport) int db_init(wchar_t* host, wchar_t* database, wchar_t* username, wchar_t* password, int db_type)
 	{
 		return 0;
 	}
 
-	__declspec(dllexport) int db_close()
+	__declspec(dllexport) int db_close(int connection_id)
 	{
 		return 0;
 	}
 
-	__declspec(dllexport) int db_write()
+	__declspec(dllexport) int db_write(int connection_id, wchar_t* sqlstr)
 	{
 		return 0;
 	}
