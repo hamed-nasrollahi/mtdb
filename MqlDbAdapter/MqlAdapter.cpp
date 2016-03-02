@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace System;
+using namespace System::Collections::Generic;
 using namespace DB;
 
 void convertFromSystemString(wchar_t* dest, String^ src)
@@ -17,6 +18,8 @@ extern "C"
 {
 	__declspec(dllexport) int db_init(wchar_t* host, wchar_t* database, wchar_t* username, wchar_t* password, int db_type)
 	{
+		MqlAdapter::Instance->Init(gcnew String(host), gcnew String(database), gcnew String(username), gcnew String(password), db_type);
+
 		return 0;
 	}
 
@@ -31,33 +34,52 @@ extern "C"
 	}
 }
 
-String^ convertToSystemString(wchar_t* src)
-{
-    String^ const str1 = gcnew String(src);
-    return str1;
-}
-
 MqlAdapter::MqlAdapter()
+	: m_nextConnectionId(0)
+	, m_connectors(gcnew Dictionary<int, MqlDbConnector^>())
 {
-	_impl = gcnew MqlDbConnector;
 }
 
-void MqlAdapter::Init()
-{
-	String^ host("tcp:jp876y2hhu.database.windows.net,1433");
-	String^ database("myDb");
-	String^ userName("bizleruser@jp876y2hhu");
-	String^ password("Password1");
-	_impl->init(host, database, userName, password);
+MqlAdapter::MqlAdapter(const MqlAdapter%) 
+{ 
+	throw gcnew System::InvalidOperationException("MqlAdapter cannot be copy-constructed"); 
 }
 
-void MqlAdapter::WriteValue(wchar_t* sqlStr)
+int MqlAdapter::Init(String^ host, String^ database, String^ userName, String^ password, int dbType)
 {
-    String^ sqlConverted = convertToSystemString(sqlStr);
-    _impl->writeRecord(sqlConverted);
+	int connectionId = -1;
+	MqlDbConnector^ connector = gcnew MqlDbConnector;
+	bool initialized = connector->init(host, database, userName, password);
+	if (initialized)
+	{
+		connectionId = m_nextConnectionId++;
+		m_connectors[connectionId] = connector;
+	}
+	
+	return connectionId;
 }
 
-void MqlAdapter::Close(){
-	_impl->close();
+bool MqlAdapter::Write(int connectionId, String^ sqlStr)
+{
+	bool res = false;
+	if (m_connectors.ContainsKey(connectionId))
+	{
+		MqlDbConnector^ connector = m_connectors[connectionId];
+		res = connector->writeRecord(sqlStr);
+	}
+
+	return res;
+}
+
+bool MqlAdapter::Close(int connectionId)
+{
+	bool res = false;
+	if (m_connectors.ContainsKey(connectionId))
+	{
+		MqlDbConnector^ connector = m_connectors[connectionId];
+		connector->close();
+		res = true;
+	}
+	return res;
 }
 
