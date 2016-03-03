@@ -3,6 +3,7 @@
 #include "Windows.h"
 #include "StubDbConnector.h"
 #include "MsSqlConnector.h"
+#include "MySqlConnector.h"
 
 using namespace std;
 using namespace System;
@@ -52,14 +53,17 @@ int MqlAdapter::Init(String^ host, String^ database, String^ username, String^ p
     DbConnector^ connector = nullptr;
     switch (dbType)
     {
-    case 0:
-        connector = gcnew StubDbConnector(username, password);
-        break;
-    case 1:
-        connector = gcnew MsSqlConnector(host, database, username, password);
-        break;
-    default:
-        break;
+        case 0:
+            connector = gcnew StubDbConnector(username, password);
+            break;
+        case 1:
+            connector = gcnew MsSqlConnector(host, database, username, password);
+            break;
+        case 2:
+            connector = gcnew MySqlConnector(host, database, username, password);
+            break;
+        default:
+            break;
     }
 
     if (connector != nullptr)
