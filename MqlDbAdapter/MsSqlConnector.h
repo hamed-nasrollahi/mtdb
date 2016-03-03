@@ -10,7 +10,7 @@ namespace DB
     {
 
 	public:
-        MsSqlConnector(System::String^ host, System::String^ database, System::String^ userName, System::String^ password);
+        MsSqlConnector(System::String^ connectionString);
         ~MsSqlConnector();
 
         virtual bool init() override;

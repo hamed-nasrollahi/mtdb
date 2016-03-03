@@ -7,7 +7,7 @@ namespace DB
     ref class StubDbConnector : public DbConnector
     {
     public:
-        StubDbConnector(System::String^ userName, System::String^ password);
+        StubDbConnector(System::String^ connectionString);
         ~StubDbConnector();
 
         virtual bool init() override;
@@ -15,7 +15,6 @@ namespace DB
         virtual bool close() override;
 
     private:
-        System::String^ m_username;
-        System::String^ m_password;
+        System::String^ m_connectionString;
     };
 }
