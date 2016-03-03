@@ -14,7 +14,7 @@ namespace DB
         ~MsSqlConnector();
 
         virtual bool init() override;
-        virtual bool writeRecord(System::String^ sqlStr) override;		
+        virtual int execute(System::String^ sqlStr) override;
 		void readRecords();
         virtual bool close() override;
 

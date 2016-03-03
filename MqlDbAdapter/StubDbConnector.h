@@ -11,7 +11,7 @@ namespace DB
         ~StubDbConnector();
 
         virtual bool init() override;
-        virtual bool writeRecord(System::String^ sqlStr) override;
+        virtual int execute(System::String^ sqlStr) override;
         virtual bool close() override;
 
     private:

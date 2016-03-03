@@ -28,9 +28,9 @@ extern "C"
         return MqlAdapter::Instance->Close(connection_id) == true ? 1 : 0;
 	}
 
-	__declspec(dllexport) int db_write(int connection_id, wchar_t* sqlstr)
+    __declspec(dllexport) int db_execute(int connection_id, wchar_t* sqlstr)
 	{
-        return MqlAdapter::Instance->Write(connection_id, gcnew String(sqlstr)) == true ? 1 : 0;
+        return MqlAdapter::Instance->Execute(connection_id, gcnew String(sqlstr));
 	}
 }
 
@@ -75,13 +75,13 @@ int MqlAdapter::Init(String^ connectionString, int dbType)
 	return connectionId;
 }
 
-bool MqlAdapter::Write(int connectionId, String^ sqlStr)
+int MqlAdapter::Execute(int connectionId, String^ sqlStr)
 {
-	bool res = false;
+	int res = -1;
 	if (m_connectors.ContainsKey(connectionId))
 	{
 		DbConnector^ connector = m_connectors[connectionId];
-		res = connector->writeRecord(sqlStr);
+		res = connector->execute(sqlStr);
 	}
 
 	return res;

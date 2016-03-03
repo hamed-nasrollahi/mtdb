@@ -66,8 +66,10 @@ void MsSqlConnector::readRecords()
 	}
 }
 
-bool MsSqlConnector::writeRecord(String^ sqlStr)
+int MsSqlConnector::execute(String^ sqlStr)
 {
+    int res = -1;
+
 	try
 	{
 		SqlCommand^ cmd = gcnew SqlCommand();
@@ -75,14 +77,15 @@ bool MsSqlConnector::writeRecord(String^ sqlStr)
 		cmd->CommandText = sqlStr;
 		cmd->Connection = m_sqlConnection;
 
-		cmd->ExecuteNonQuery();
+        res = cmd->ExecuteNonQuery();
 	}
 	catch (Exception^ e)
 	{
 		Console::Write(e->ToString());
 		return false;
 	}
-	return true;
+
+    return res;
 }
 
 bool MsSqlConnector::close()

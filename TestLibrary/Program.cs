@@ -16,11 +16,8 @@ namespace TestLibrary
         public static extern int db_close(int connection_id);
 
         [DllImport("MqlDbAdapter.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern int db_write(int connection_id,
-            [MarshalAsAttribute(UnmanagedType.LPWStr)] string sqlstr);
+        public static extern int db_execute(int connection_id, [MarshalAsAttribute(UnmanagedType.LPWStr)] string sqlstr);
         #endregion
-
-        private static IntPtr _message = IntPtr.Zero;
 
         static void Main(string[] args)
         {
@@ -51,7 +48,7 @@ namespace TestLibrary
                 return false;
             }
 
-            if (db_write(connId, null) < 0)
+            if (db_execute(connId, null) < 0)
             {
                 Console.WriteLine("StubDb: Write error!");
                 return false;
@@ -78,7 +75,7 @@ namespace TestLibrary
             }
 
             string sql = string.Format("INSERT INTO Pattern (Symbol, Time) VALUES ('{0}', {1})", "EURUSD", 1);
-            if (db_write(connId, sql) == 0)
+            if (db_execute(connId, sql) <= 0)
             {
                 Console.WriteLine("Write error: ");
                 return false;

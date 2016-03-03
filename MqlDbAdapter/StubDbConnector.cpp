@@ -23,9 +23,9 @@ bool DB::StubDbConnector::init()
     return false;
 }
 
-bool DB::StubDbConnector::writeRecord(System::String^ sqlStr)
+int DB::StubDbConnector::execute(System::String^ sqlStr)
 {
-    return true;
+    return 0;
 }
 
 bool DB::StubDbConnector::close()
