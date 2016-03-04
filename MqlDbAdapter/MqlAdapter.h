@@ -12,8 +12,8 @@ private:
 
 public:
 	static property MqlAdapter^ Instance { MqlAdapter^ get() { return %m_instance; } }
-    int Init(System::String^ host, System::String^ database, System::String^ username, System::String^ password, int dbType);
-	bool Write(int connectionId, System::String^ sqlStr);
+    int Init(System::String^ connectionString, int dbType);
+	int Execute(int connectionId, System::String^ sqlStr);
 	bool Close(int connectionId);
 
 private:

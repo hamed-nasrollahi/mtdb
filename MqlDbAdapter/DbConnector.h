@@ -6,7 +6,7 @@ namespace DB
     {
     public:
         virtual bool init() abstract;
-        virtual bool writeRecord(System::String^ sqlStr) abstract;
+        virtual int execute(System::String^ sqlStr) abstract;
         virtual bool close() abstract;
     };
 }

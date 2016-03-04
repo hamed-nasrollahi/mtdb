@@ -1,0 +1,25 @@
+USE [StockDb]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Symbols](
+	[Id] [int] NOT NULL,
+	[Symbol] [nchar](1000) NULL,
+	[Time] [int] NULL,
+	[BidPrice] [float] NULL,
+	[AskPrice] [float] NULL,
+	[TimeFrame] [int]
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+

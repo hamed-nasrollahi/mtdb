@@ -14,13 +14,10 @@ using namespace DB;
 using namespace std;
 
 
-DB::MsSqlConnector::MsSqlConnector(System::String^ host, System::String^ database, System::String^ userName, System::String^ password)
+DB::MsSqlConnector::MsSqlConnector(System::String^ connectionString)
 {
-    m_sqlConnection = gcnew SqlConnection(String::Format("Server={0},1433;Database={1}; User ID={2};Password={3};Encrypt=True; TrustServerCertificate=False;Connection Timeout=30;",
-        host, database, userName, password));
-
-
-    //m_sqlConnection = gcnew SqlConnection("Data Source = .; Initial Catalog = StockDb; Integrated Security = True");
+//    m_sqlConnection = gcnew SqlConnection("Data Source = .\\SQLEXPRESS; Initial Catalog = master; Integrated Security = True");
+    m_sqlConnection = gcnew SqlConnection(connectionString);
 }
 
 MsSqlConnector::~MsSqlConnector()
@@ -69,8 +66,10 @@ void MsSqlConnector::readRecords()
 	}
 }
 
-bool MsSqlConnector::writeRecord(String^ sqlStr)
+int MsSqlConnector::execute(String^ sqlStr)
 {
+    int res = -1;
+
 	try
 	{
 		SqlCommand^ cmd = gcnew SqlCommand();
@@ -78,14 +77,15 @@ bool MsSqlConnector::writeRecord(String^ sqlStr)
 		cmd->CommandText = sqlStr;
 		cmd->Connection = m_sqlConnection;
 
-		cmd->ExecuteNonQuery();
+        res = cmd->ExecuteNonQuery();
 	}
 	catch (Exception^ e)
 	{
 		Console::Write(e->ToString());
 		return false;
 	}
-	return true;
+
+    return res;
 }
 
 bool MsSqlConnector::close()

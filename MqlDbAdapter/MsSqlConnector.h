@@ -10,11 +10,11 @@ namespace DB
     {
 
 	public:
-        MsSqlConnector(System::String^ host, System::String^ database, System::String^ userName, System::String^ password);
+        MsSqlConnector(System::String^ connectionString);
         ~MsSqlConnector();
 
         virtual bool init() override;
-        virtual bool writeRecord(System::String^ sqlStr) override;		
+        virtual int execute(System::String^ sqlStr) override;
 		void readRecords();
         virtual bool close() override;
 
